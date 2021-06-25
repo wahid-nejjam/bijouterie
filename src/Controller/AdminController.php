@@ -52,6 +52,8 @@ class AdminController extends AbstractController
         //dump($request); // dump() équivalent de var_dump() en PHP et apparaissant dans la barre de debug de symfony
         //dump($post);
 
+        //wahid a du github
+
         $form->handleRequest($request); // ici on utilise la méthode handlerequest() de notre objet Form afin de traiter la requête soumise
 
         if ($form->isSubmitted() && $form->isValid()): // si le formulaire a été envoyé via notre button type submit et que les controles de contraintes éffectués dans notre entité Article et notre formulaire ArticleType, on rentre dans la condition
