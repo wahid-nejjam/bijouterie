@@ -2,15 +2,40 @@ security:
     # https://symfony.com/doc/current/security/experimental_authenticators.html
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+#    Ici on définit un encodeur, on précise à symfony que l'on va utiliser l'algorithme bcrypt afin d'encoder un paramètre dans l'entité User et donc dans la BBD
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
     providers:
-        users_in_memory: { memory: null }
+#        les providers permettent de préciser à symfony où stocker les données à controler, ici pour nous dans la BDD, sur la table User sur le champ email
+        in_database:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
+#        firewall=> quelle partie du site on va protéger et par quel moyen
+#
+#        on précise à symfony d'activer la protection par rapport à notre provider in_database
+
+
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: in_database
+
+            logout:
+                path: logout
+                target: home
+
+
+#        ici on va préciser à symfony que la connexion va s'éffectuer via un formulaire de connexion dont on va préciser la route
+            form_login:
+                login_path: login #route pour se connecter
+                check_path: login # précise la route sur laquelle il va devoir effectuer les controles sur l'émail
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
